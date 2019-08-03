@@ -1,0 +1,15 @@
+.frontpage-exchange-rates-wrapper ._rateRow {
+  border-bottom: 1px solid #bbb;
+  display: flex;
+  flex-direction: row;
+}
+.frontpage-exchange-rates-wrapper ._rateRow ._currId {
+  flex-grow: 3;
+}
+.frontpage-exchange-rates-wrapper ._rateRow ._currRate {
+  flex-grow: 1;
+}
+.frontpage-exchange-rates-wrapper ._rateRow ._currDate {
+  flex-grow: 0;
+}
+

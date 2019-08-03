@@ -65,20 +65,20 @@ class FrontpageBlock extends BlockBase {
     } else {
       foreach($rates as $rate){
         if( in_array($rate['cc'], $toshow) ) {
-          $content .= "<div class='rate curr{$rate['cc']}'>
-                        <span class='currId' title='{$rate['txt']}'>{$rate['cc']}</span>
-                        <span class='currRate'>{$rate['rate']}</span>
-                        <span class='currDate'>{$rate['exchangedate']}</span>
+          $content .= "<div class='_rateRow curr{$rate['cc']}'>
+                        <span class='_currId' title='{$rate['txt']}'>{$rate['cc']}</span>
+                        <span class='_currRate'>{$rate['rate']}</span>
+                        <span class='_currDate'>{$rate['exchangedate']}</span>
                        </div>";
         }
       }
 
     }
 
+    $output['#markup'] = "<div class='frontpage-exchange-rates-wrapper'>{$content}</div>";
+    $output['#attached']['library'][] = 'exchange_rates/exchange_rates';
 
-    return [
-      '#markup' => "<div class='frontpage-exchange-rates-wrapper'>{$content}</div>",
-    ];
+    return $output;
   }
 
   /**
@@ -125,7 +125,7 @@ class FrontpageBlock extends BlockBase {
    */
   public function blockSubmit($form, FormStateInterface $form_state) {
     $config = $this->getConfiguration();
-    $expiresAfter = $form_state->getValue('exchange_rates_frontpage_show');
+    $expiresAfter = intval($form_state->getValue('exchange_rates_frontpage_expiresAfter'));
     $expiresAfter = empty($expiresAfter) ? 600 : ($expiresAfter<300 ? 300 : ($expiresAfter>3600 ? 3600 : $expiresAfter) ) ;
 
     $this->configuration['exchange_rates_frontpage_show'] = $form_state->getValue('exchange_rates_frontpage_show');
