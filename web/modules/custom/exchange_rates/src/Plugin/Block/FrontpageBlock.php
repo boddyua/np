@@ -25,7 +25,7 @@ class FrontpageBlock extends BlockBase {
     $toshow = explode(' ', empty($config['exchange_rates_frontpage_show']) ? 'EUR USD' : $config['exchange_rates_frontpage_show'] );
     $expiresAfter = empty($config['exchange_rates_frontpage_expiresAfter']) ? 600 : $config['exchange_rates_frontpage_expiresAfter'];
 
-    $content = '';
+    $content = date('d.m.Y H:i:s')."<br>";
     $json = '';
     $cachefile = 'exchange_rates_frontpage_lastdata.json';
     $lastdata['time'] = 0;
@@ -34,11 +34,11 @@ class FrontpageBlock extends BlockBase {
       $_tmp = file_get_contents($cachefile);
       $lastdata = json_decode($_tmp, TRUE);
       $json = $lastdata['json'];
-      $content .= "pick json last data, expires: {$lastdata['time']}<br>";
+//      $content .= "pick json last data, expires: {$lastdata['time']}<br>";
     }
 
     if(empty($json) || (time()-$lastdata['time']>$expiresAfter)) {
-      $content .= "get json from url<br>";
+//      $content .= "get json from url<br>";
       $url = 'https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json';
       // get all, because API https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?valcode=EUR&date=20190803&json sometimes got 504 Gateway Time-out
       // sometimes got [{"message":"Wrong parameters format"}] - Ukrainian Gov's IT, baby!
@@ -49,14 +49,14 @@ class FrontpageBlock extends BlockBase {
       $rates = json_decode($json, TRUE);
       if(is_array($rates) && count($rates)>0 && isset($rates[0]['rate'])) {
         @file_put_contents( $cachefile, json_encode(array('json'=>$json,'time'=>time())) );
-        $content .= "set last data<br>";
+//        $content .= "set last data<br>";
       } else {
         $rates = array(); // set empty if getted error like [{"message":"Wrong parameters format"}]
       }
     }
 
     if(empty($rates)) {
-      $content .= "seems like error getted, try use the cached value<br>";
+//      $content .= "seems like error getted, try use the cached value<br>";
       if(!empty($lastdata['json'])) $rates = json_decode($lastdata['json'], TRUE);
     }
 
