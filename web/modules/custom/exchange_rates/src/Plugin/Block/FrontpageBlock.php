@@ -26,9 +26,10 @@ class FrontpageBlock extends BlockBase {
     $expiresAfter = empty($config['exchange_rates_frontpage_expiresAfter']) ? 600 : $config['exchange_rates_frontpage_expiresAfter'];
 
     $content = '';
-    $json = false;
+    $json = '';
     $cachefile = 'exchange_rates_frontpage_lastdata.json';
     $lastdata['time'] = 0;
+    $rates = array();
     if(file_exists($cachefile)) {
       $_tmp = file_get_contents($cachefile);
       $lastdata = json_decode($_tmp, TRUE);
@@ -40,21 +41,28 @@ class FrontpageBlock extends BlockBase {
       $content .= "get json from url<br>";
       $url = 'https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json';
       // get all, because API https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?valcode=EUR&date=20190803&json sometimes got 504 Gateway Time-out
+      // sometimes got [{"message":"Wrong parameters format"}] - Ukrainian Gov's IT, baby!
       $json = file_get_contents($url);
+    }
 
-      if($json!==false) {
+    if(!empty($json)) {
+      $rates = json_decode($json, TRUE);
+      if(is_array($rates) && count($rates)>0 && isset($rates[0]['rate'])) {
         @file_put_contents( $cachefile, json_encode(array('json'=>$json,'time'=>time())) );
         $content .= "set last data<br>";
       } else {
-        if(!empty($lastdata['json'])) $json = $lastdata['json'];
+        $rates = array(); // set empty if getted error like [{"message":"Wrong parameters format"}]
       }
     }
 
-    if($json===false) {
+    if(empty($rates)) {
+      $content .= "seems like error getted, try use the cached value<br>";
+      if(!empty($lastdata['json'])) $rates = json_decode($lastdata['json'], TRUE);
+    }
+
+    if(empty($rates)) {
       $content .= 'shit happend';
     } else {
-      $rates = json_decode($json, TRUE);
-
       foreach($rates as $rate){
         if( in_array($rate['cc'], $toshow) ) {
           $content .= "<div class='rate curr{$rate['cc']}'>
