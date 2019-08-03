@@ -33,18 +33,18 @@ class FrontpageBlock extends BlockBase {
       $_tmp = file_get_contents($cachefile);
       $lastdata = json_decode($_tmp, TRUE);
       $json = $lastdata['json'];
-//      $content .= "pick json last data, expires: {$lastdata['time']}<br>";
+      $content .= "pick json last data, expires: {$lastdata['time']}<br>";
     }
 
     if(empty($json) || (time()-$lastdata['time']>$expiresAfter)) {
-//      $content .= "get json from url<br>";
+      $content .= "get json from url<br>";
       $url = 'https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json';
       // get all, because API https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?valcode=EUR&date=20190803&json sometimes got 504 Gateway Time-out
       $json = file_get_contents($url);
 
       if($json!==false) {
         @file_put_contents( $cachefile, json_encode(array('json'=>$json,'time'=>time())) );
-//        $content .= "set last data<br>";
+        $content .= "set last data<br>";
       } else {
         if(!empty($lastdata['json'])) $json = $lastdata['json'];
       }
