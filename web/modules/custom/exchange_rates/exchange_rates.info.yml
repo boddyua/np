@@ -1,0 +1,5 @@
+name: ExchangeRates
+description: Custom block for show the exchange rates
+type: module
+core: 8.x
+package: ExchangeRates
