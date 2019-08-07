@@ -26,7 +26,8 @@ class FrontpageBlock extends BlockBase {
     $toshow = explode(' ', empty($config['exchange_rates_frontpage_show']) ? 'EUR USD' : $config['exchange_rates_frontpage_show']);
     $expiresAfter = empty($config['exchange_rates_frontpage_expiresAfter']) ? 600 : $config['exchange_rates_frontpage_expiresAfter'];
 
-    $content = date('d.m.Y H:i:s') . "<br>";
+    $content = \Drupal::service('date.formatter')->format(time(), 'date_text') . "<br>";
+
     $json = '';
 
     $cid = 'exchange_rates_frontpage_lastdata';
