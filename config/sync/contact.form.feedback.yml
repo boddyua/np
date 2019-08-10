@@ -1,0 +1,14 @@
+uuid: 5a929d81-da20-425c-9d0a-8bd1896bce59
+langcode: uk
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: vymHlgJy26BuI5GGj9-IXjwR3dRC5C0tij4BpWJnoqw
+id: feedback
+label: 'Зворотній зв’язок веб-сайту'
+recipients:
+  - newsportal@boddy.net.ua
+reply: ''
+weight: 0
+message: 'Ваше повідомлення було надіслано.'
+redirect: ''

@@ -1,0 +1,29 @@
+uuid: 9a65be00-6756-4401-840d-89a2731b49b3
+langcode: en
+status: true
+dependencies: {  }
+id: editor
+label: Editor
+weight: 3
+is_admin: null
+permissions:
+  - 'access comments'
+  - 'access content'
+  - 'access site-wide contact form'
+  - 'access user contact forms'
+  - 'administer comment types'
+  - 'administer comments'
+  - 'administer contact forms'
+  - 'create news content'
+  - 'edit any news content'
+  - 'edit own comments'
+  - 'edit own news content'
+  - 'post comments'
+  - 'revert news revisions'
+  - 'search content'
+  - 'use advanced search'
+  - 'use text format basic_html'
+  - 'use text format full_html'
+  - 'use text format restricted_html'
+  - 'view news revisions'
+  - 'view own unpublished content'

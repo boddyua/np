@@ -1,0 +1,31 @@
+uuid: e3ab8d0f-7dae-4205-9c1e-b1f0fce97fb3
+langcode: uk
+status: true
+dependencies:
+  module:
+    - node
+    - system
+  theme:
+    - bartik
+_core:
+  default_config_hash: 9EoWV2Lot6FVSr50t4hoKgiz1LIXYWNG-IIPYsWxBqo
+id: bartik_content
+theme: bartik
+region: content
+weight: 0
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Main page content'
+  provider: system
+  label_display: '0'
+visibility:
+  node_type:
+    id: node_type
+    bundles:
+      article: article
+      page: page
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'

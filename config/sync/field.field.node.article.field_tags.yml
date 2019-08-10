@@ -1,0 +1,29 @@
+uuid: e4913326-b76e-410f-b686-44b10c13c99d
+langcode: uk
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_tags
+    - node.type.article
+    - taxonomy.vocabulary.tags
+_core:
+  default_config_hash: QdUgf_beeoaPiyKorFv0q1fcJpWH_uZTqe_xoVJacrw
+id: node.article.field_tags
+field_name: field_tags
+entity_type: node
+bundle: article
+label: Теґи
+description: 'Введіть відокремлений комами перелік. Приклад: Амстердам, Київ, "Клівленд, Огайо".'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      tags: tags
+    sort:
+      field: _none
+    auto_create: true
+field_type: entity_reference

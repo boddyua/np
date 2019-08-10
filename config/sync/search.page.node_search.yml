@@ -1,0 +1,15 @@
+uuid: 658f8a50-7c9d-45e3-bdfc-863e8d5f22d6
+langcode: uk
+status: true
+dependencies:
+  module:
+    - node
+_core:
+  default_config_hash: 97tvtzGOa8_flb22CzSjgtm_YkiGMHvEBO-6q2K9V_U
+id: node_search
+label: Вміст
+path: node
+weight: -10
+plugin: node_search
+configuration:
+  rankings: {  }

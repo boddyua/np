@@ -1,0 +1,10 @@
+uuid: 6a1f1d8c-3992-4ec6-a260-c0f81f5e7c62
+langcode: uk
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: jxfClwZIRXIdcvMrE--WkcZxDGUVoOIE3Sm2NRZlFuE
+id: html_datetime
+label: 'Дата і час HTML'
+locked: true
+pattern: 'Y-m-d\TH:i:sO'

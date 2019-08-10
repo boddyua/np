@@ -1,0 +1,12 @@
+uuid: abf10585-74f1-4d85-a669-1b557b312c67
+langcode: uk
+status: false
+dependencies:
+  module:
+    - node
+_core:
+  default_config_hash: ElrtInxGjZd7GaapJ5O9n-ugi2hG2IxFivtgn0tHOsk
+id: node.full
+label: 'Повний вміст'
+targetEntityType: node
+cache: true

@@ -1,0 +1,23 @@
+uuid: ae0140d5-60d9-4569-9444-43b37a4a6fe3
+langcode: en
+status: true
+dependencies:
+  module:
+    - exchange_rates
+  theme:
+    - bartik
+id: exchange_ratesforfrontpage
+theme: bartik
+region: sidebar_first
+weight: 0
+provider: null
+plugin: exchange_rates_frontpage_block
+settings:
+  id: exchange_rates_frontpage_block
+  label: 'NBU exchange rates'
+  provider: exchange_rates
+  label_display: visible
+  exchange_rates_frontpage_settings: ''
+  exchange_rates_frontpage_show: 'EUR USD PLN'
+  exchange_rates_frontpage_expiresAfter: 303
+visibility: {  }
