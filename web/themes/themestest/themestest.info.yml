@@ -1,0 +1,7 @@
+name: themestest
+type: theme
+base theme: bartik
+description: My test Drupal 8 theme.
+core: 8.x
+libraries:
+  - themestest/global-styling

@@ -1,7 +1,7 @@
 exchange_rates.first_page:
   path: '/exchange-rates'
   defaults:
-    _controller: '\Drupal\exchange_rates\Controller\FirstPageController::content'
+    _controller: '\Drupal\exchange_rates\Controller\exchange_ratesController::content'
     _title: 'exchange rates'
   requirements:
     _permission: 'access content'

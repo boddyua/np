@@ -26,63 +26,71 @@ class FrontpageBlock extends BlockBase {
     $toshow = explode(' ', empty($config['exchange_rates_frontpage_show']) ? 'EUR USD' : $config['exchange_rates_frontpage_show']);
     $expiresAfter = empty($config['exchange_rates_frontpage_expiresAfter']) ? 600 : $config['exchange_rates_frontpage_expiresAfter'];
 
-    $content = \Drupal::service('date.formatter')->format(time(), 'date_text') . "<br>";
+    $dbg[] = \Drupal::service('date.formatter')->format(time(), 'date_text');
 
     $json = '';
+    $data = [];
 
     $cid = 'exchange_rates_frontpage_lastdata';
     $lastdata['time'] = 0;
     $rates = [];
     if ($cache = \Drupal::cache()->get($cid)) {
       $lastdata = $cache->data;
-      $content .= "pick json last data, expires: {$lastdata['time']}<br>";
+      $json = $lastdata['json'];
+      $rates = json_decode($json, TRUE);
+      // $dbg[] = "pick json last data, expires: {$lastdata['time']}";
     }
 
-    if (empty($json) || (time() - $lastdata['time'] > $expiresAfter)) {
-      $content .= "get json from url<br>";
+    $_age = time() - $lastdata['time'];
+    if (empty($json) || ($_age > $expiresAfter)) {
+      /*
+      if (empty($json)) {
+        $dbg[] = "empty json";
+      }
+      if ($_age > $expiresAfter) {
+        $dbg[] = "age: {$_age}, lasttime: {$lastdata['time']}, expiresAfter: {$expiresAfter}";
+      }
+      $dbg[] = "get json from url";
+      */
       $url = 'https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json';
       // Get all, because API https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?valcode=EUR&date=20190803&json
       // sometimes got 504 Gateway Time-out
       // sometimes got [{"message":"Wrong parameters format"}]
       // - Ukrainian Gov's IT, baby!
       $json = file_get_contents($url);
-    }
-
-    if (!empty($json)) {
-      $rates = json_decode($json, TRUE);
-      if (is_array($rates) && count($rates) > 0 && isset($rates[0]['rate'])) {
-        \Drupal::cache()->set($cid, ['json' => $json, 'time' => time()]);
-        $content .= "set last data<br>";
-      }
-      else {
-        // Set empty if get error like [{"message":"Wrong parameters format"}] .
-        $rates = [];
+      if (!empty($json)) {
+        $rates = json_decode($json, TRUE);
+        if (is_array($rates) && count($rates) > 0 && isset($rates[0]['rate'])) {
+          \Drupal::cache()->set($cid, ['json' => $json, 'time' => time()]);
+          // $dbg[] = "set last data";
+        }
+        else {
+          // Set empty if get error like [{"message":"Wrong parameters format"}] .
+          $rates = [];
+        }
       }
     }
 
     if (empty($rates)) {
-      $content .= "seems like error getted, try use the cached value<br>";
+      // $dbg[] = "seems like error getted, try use the cached value";
       if (!empty($lastdata['json'])) {
         $rates = json_decode($lastdata['json'], TRUE);
       }
     }
 
     if (empty($rates)) {
-      $content .= 'shit happend';
+      $dbg[] = 'shit happend';
     }
     else {
       foreach ($rates as $rate) {
         if (in_array($rate['cc'], $toshow)) {
-          $content .= "<div class='_rateRow curr{$rate['cc']}'>
-                        <span class='_currId' title='{$rate['txt']}'>{$rate['cc']}</span>
-                        <span class='_currRate'>{$rate['rate']}</span>
-                        <span class='_currDate'>{$rate['exchangedate']}</span>
-                       </div>";
+          $data[] = $rate;
         }
       }
     }
 
-    $output['#markup'] = "<div class='frontpage-exchange-rates-wrapper'>{$content}</div>";
+    $output['dbg'] = $dbg;
+    $output['data'] = $data;
     $output['#attached']['library'][] = 'exchange_rates/exchange_rates';
 
     return $output;
