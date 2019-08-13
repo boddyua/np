@@ -89,11 +89,18 @@ class FrontpageBlock extends BlockBase {
       }
     }
 
-    $output['dbg'] = $dbg;
-    $output['data'] = $data;
-    $output['#attached']['library'][] = 'exchange_rates/exchange_rates';
+    // $output['dbg'] = $dbg;
+    // $output['data'] = $data;
+    // $output['#attached']['library'][] = 'exchange_rates/exchange_rates';
+    // return $output;
 
-    return $output;
+    return [
+      '#theme' => 'exchange_rates',
+      '#data' => $data,
+      '#dbg' => $dbg,
+      '#attached' => ['library' => ['exchange_rates/exchange_rates']],
+    ];
+
   }
 
   /**

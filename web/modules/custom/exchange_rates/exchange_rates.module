@@ -1,0 +1,21 @@
+<?php
+
+/**
+ * @file
+ * exchange_rates
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function exchange_rates_theme() {
+  return [
+    'exchange_rates' => [
+      'variables' => [
+        'data' => [],
+        'dbg' => '',
+      ],
+    ],
+  ];
+}
+

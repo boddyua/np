@@ -44,11 +44,10 @@
   {{ title_suffix }}
   {% block content %}
     <div{{ content_attributes.addClass('content') }}>
-
-      {{ content }}
+      <div>have test</div>
 
       <div class='frontpage-exchange-rates-wrapper'>
-        {% for rate in content.data %}
+        {% for rate in data %}
           <div class='_rateRow curr{{ rate.cc }}'>
             <span class='_currId' title='{{ rate.txt }}'>{{ rate.cc }}</span>
             <span class='_currRate'>{{ rate.rate }}</span>
@@ -58,7 +57,7 @@
       </div>
 
       <div>
-        {% for r in content.dbg %}
+        {% for r in dbg %}
           <div>{{ r }}</div>
         {% endfor %}
       </div>
